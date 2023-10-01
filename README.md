@@ -1,5 +1,4 @@
-https://github.com/sempedia/stock_management/assets/104672255/9522dc8f-2468-4a09-9c6d-4780f615a361
-
+https://github.com/sempedia/online_learning_platform/assets/104672255/94d42c94-6d0b-4719-ba6d-95fcb7095ca0
 
 StudyBuddy Online Learning Platform
 
