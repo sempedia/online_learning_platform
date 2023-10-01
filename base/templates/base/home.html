@@ -1,0 +1,28 @@
+
+    {% extends 'main.html' %}
+    
+    {% block content %}
+    <!--Home container-->
+    <main class="layout layout--3">
+      <div class="container">
+
+      
+        <!--Topics container-->
+        <div>
+          {% include 'base/topics_component.html' %}
+        </div>
+        <!-- Topics End -->
+
+        <!-- Room container -->
+          {% include 'base/room_component.html' %}
+        </div>
+        <!-- Room List End -->
+
+        <!-- Recent Activity container -->
+          {% include 'base/activity_component.html' %}
+        </div>
+        <!-- Activities End -->
+      </div>
+      
+    </main>
+    {% endblock content %}

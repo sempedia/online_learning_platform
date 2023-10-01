@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<!--Styling for the room-container-->
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
+<!--Room Container-->
+<div class="room-container">
+
+    <!--DIV Column Wrapper around the messages and the form-->
+    <div>
+    <!-- Room Name and Description-->
+    <h1>{{ room.name }}</h1>
+    <p> {{ room.description }}</p>
+
+    <!--Comments Section-->
+    <div class="comment-wrapper">
+        <h3>Conversation</h3>
+        <hr>
+        <!-- Displaying the username, when the message was created and comment body -->
+        {% for message in room_messages %}
+        <div>
+            <!--Only the logged in user can see the Delete Link and delete a message-->
+            {% if request.user == message.user %}
+            <a href="{% url 'delete_message' message.id %}">Delete Message</a>
+            {% endif %}
+                
+            <small>@{{ message.user }} {{ message.created|timesince }}</small>
+        <p>{{ message.body }}</p>
+            <hr>
+        </div>
+            
+        {% endfor %}
+            
+    </div>
+
+    <!--User Comment Form for Adding a new Comment-->
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="text" name="body" placeholder="Write your message here...">
+        </form>
+
+    </div>
+    {% endif %}
+</div>
+
+<!--Div Column Wrapper around Participants-->
+<div>
+<h3>Participants</h3>
+<hr>
+
+{% for participant in participants %}
+<div>
+    <p>@{{ participant.username }}</p>
+</div>
+    
+{% endfor %}
+    
+</div>
+
+</div>
+{% endblock content %}
+    

@@ -1,0 +1,97 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+  <!--Profile container-->
+  <main class="profile-page layout layout--3">
+    <div class="container">
+      
+        <!-- Browse Topics section on the left -->
+        <div class="col-md-3">
+          {% include 'base/topics_component.html' %}
+        </div>
+
+        <!-- Profile section in the middle -->
+        <div class="col-md-6">
+          <!-- User details and About section -->
+          <div class="profile">
+            <!-- User details -->
+            <div class="profile__avatar">
+              <div class="avatar avatar--large active">
+                <img src="{{ user.avatar.url }}" alt="{{ user.username }} Avatar" />
+              </div>
+            </div>
+            <div class="profile__info">
+              <div>
+                <h3>{{ user.username }}</h3>
+                <p><a href="{% url 'user_profile' user.id %}">@ {{ user.username }}</a></p>
+                <!-- Only the logged-in User can Edit the Profile -->
+                {% if request.user == user %}
+                  <!-- Edit Profile Button -->
+                  <a href="{% url 'update_user' %}" class="btn btn--main btn--pill">Edit Profile</a>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- About section -->
+            <div class="profile__about">
+              <h2>About</h2>
+              <p>{{ user.bio }}</p>
+              <!-- Display the bio update message if available -->
+              {% if user.date_joined %}
+                <p>Updated {{ user.date_joined|date:"F j, Y" }}</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Study rooms hosted by the user -->
+          <div class="roomList">
+            <!-- Room List Start -->
+            {% for room in rooms %}
+              <div class="roomListRoom">
+                <!-- Room Author/Host/User -->
+                <a href="{% url 'user_profile' room.host.id %}" class="roomListRoom__author">
+                  <div class="avatar avatar--small">
+                    <img src="{{ room.host.avatar.url }}" alt="{{ room.host.username }} Avatar" />
+                  </div>
+                  <span>@{{ room.host.username }}</span>
+                </a>
+
+                <!-- Room Creation Time -->
+                <div class="roomListRoom__actions">
+                  <span>{{ room.created|timesince }}</span>
+                </div>
+
+                <!-- Room Content: Name/Description -->
+                <div class="roomListRoom__content">
+                  <a href="{% url 'room' room.id %}">{{ room.name }}</a>
+                </div>
+
+                <!-- Room Participants -->
+                <div class="roomListRoom__meta">
+                  <a href="{% url 'room' room.id %}" class="roomListRoom__joined">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                      <title>user-group</title>
+                      <!-- ... (SVG content) ... -->
+                    </svg>
+                    {{ room.participants.all.count }}
+                  </a>
+                  <!-- Room's Topic -->
+                  <p class="roomListRoom__topic">{{ room.topic.name }}</p>
+                </div>
+              </div>
+            {% endfor %}
+            <!-- Room List End -->
+          </div>
+        </div>
+
+        <!-- Recent Activities section on the right -->
+        <div class="col-md-3">
+          <div class="activities">
+            {% include 'base/activity_component.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock content %}

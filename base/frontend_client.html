@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Cool Rooms</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <h1>Cool Rooms</h1>
+
+        <!--Rooms List container-->
+        <div id="rooms_container">
+
+        </div>
+
+    </body>
+
+    <!--JavaScript API Call-->
+    <script>
+        //Get the rooms_container
+        let rooms_container = document.getElementById('rooms_container')
+
+        console.log(rooms_container)
+
+        //Make a API call using an Arrow function , fetch() and async/await
+        let get_rooms = async () => {
+        let response = await fetch('http://127.0.0.1:8000/api/rooms')
+        //Parse the response and get the data 'rooms' as a JSON response
+        let rooms = await response.json()
+        // Loop through the 'rooms' to render/output them all
+        for(let i = 0; rooms.length > i; i++){
+            let room = rooms[i]
+            // Create a 'row' with the 'rooms' names using template literal `` and
+            // template variable ${} directly inside HTML code to output the rooms.name
+            let row= `<div>
+                        <h3>${room.name}</h3>
+                        </div>`
+                        // We append all the rows with rooms.name that we iterate through
+        // intoour HTML rooms_container. This one: <div id="rooms-container">
+            rooms_container.innerHTML += row
+            }
+        }
+        // Call the function to canget a response from the API Endpoint
+        get_rooms()
+            </script>
+
+</html>
